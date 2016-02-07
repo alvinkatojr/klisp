@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+
+#include <editline/readline.h>
+#include <editline/history.h>
 
 /* Declare a buffer for user input of size 2048 */
 static char input[2048];
