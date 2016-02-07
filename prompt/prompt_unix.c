@@ -16,7 +16,7 @@ int main(int argc, char** argv){
     fputs("lispy> ", stdout);
 
     /* Read a line of user input of maximum size 2048 */
-    fgets(input, 2048, stdin)
+    fgets(input, 2048, stdin);
 
     /* Echo input back to user */
     printf("No you're a %s\n", input);
