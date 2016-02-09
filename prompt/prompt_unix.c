@@ -26,8 +26,6 @@ void add_history(char* unused) (){}
 #include <editline/history.h>
 #endif
 
-#include <editline/readline.h>
-
 int main(int argc, char** argv){
 
   /* Print Version and Exit Information */
