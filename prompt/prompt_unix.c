@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* If we are compiling on Windows compile these functions */
+#ifdef _WIN32
+#include <string.h>
+
+
+
 #include <editline/readline.h>
 
 int main(int argc, char** argv){
