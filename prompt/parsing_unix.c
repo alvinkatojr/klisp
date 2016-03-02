@@ -35,11 +35,16 @@ int main(int argc, char** argv){
   mpc_paraser_t* Expr = mpc_new("expr");
   mpc_paraser_t* Lispy = mpc_new("lispy");
 
-  /* Define them with the following language */
+  /* Define the rules for polish notation */
 
   mpca_lang(MPCA_LANG_DEFAULT,
   "
-  ", Number, Operator, Expr, Lispy);
+    number : /-?[0-9]+/;
+    operator : '+' | '-' | '*' | '/'
+    expr : <number> | '(' <operator> <expr>+ ')';
+    lispy: /^/ <operator> <expr>+ /$/;
+  ",
+  Number, Operator, Expr, Lispy);
 
   /* Print Version and Exit Information */
   puts("Klisp Version 0.0.0.0.1");
