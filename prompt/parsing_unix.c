@@ -35,6 +35,12 @@ int main(int argc, char** argv){
   mpc_paraser_t* Expr = mpc_new("expr");
   mpc_paraser_t* Lispy = mpc_new("lispy");
 
+  /* Define them with the following language */
+
+  mpca_lang(MPCA_LANG_DEFAULT,
+  "
+  ", Number, Operator, Expr, Lispy);
+
   /* Print Version and Exit Information */
   puts("Klisp Version 0.0.0.0.1");
   puts("Press Ctrl+c to Exit\n");
