@@ -59,9 +59,6 @@ int main(int argc, char** argv){
     /* Read a line of user input of maximum size 2048 */
     add_history(input);
 
-    /* Echo input back to user */
-    printf("No you're a %s\n", input);
-
     /* Free retrieved input */
     free(input);
   }
