@@ -59,7 +59,7 @@ int main(int argc, char** argv){
     add_history(input);
 
     mpc_result_t r;
-    if (mpc_parse("<stdin>", input, lispy, &r)) {
+    if (mpc_parse("<stdin>", input, Lispy, &r)) {
       /* On success print and delete the AST */
       mpc_ast_print(r.output);
       mpc_ast_delete(r.output);
