@@ -37,12 +37,12 @@ int main(int argc, char** argv){
   /* Define the rules for polish notation */
 
   mpca_lang(MPCA_LANG_DEFAULT,
-  "
-    number : /-?[0-9]+/;
-    operator : '+' | '-' | '*' | '/';
-    expr : <number> | '(' <operator> <expr>+ ')';
-    lispy: /^/ <operator> <expr>+ /$/;
-  ",
+    "                                                 \
+      number : /-?[0-9]+/;                            \
+      operator : '+' | '-' | '*' | '/';               \
+      expr : <number> | '(' <operator> <expr>+ ')';   \
+      lispy: /^/ <operator> <expr>+ /$/;              \
+    ",
   Number, Operator, Expr, Lispy);
 
   /* Print Version and Exit Information */
