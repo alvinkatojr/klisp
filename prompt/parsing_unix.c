@@ -29,10 +29,10 @@ void add_history(char* unused) (){}
 int main(int argc, char** argv){
 
   /* New Parsers */
-  mpc_paraser_t* Number = mpc_new("number");
-  mpc_paraser_t* Operator = mpc_new("operator");
-  mpc_paraser_t* Expr = mpc_new("expr");
-  mpc_paraser_t* Lispy = mpc_new("lispy");
+  mpc_parser_t* Number = mpc_new("number");
+  mpc_parser_t* Operator = mpc_new("operator");
+  mpc_parser_t* Expr = mpc_new("expr");
+  mpc_parser_t* Lispy = mpc_new("lispy");
 
   /* Define the rules for polish notation */
 
