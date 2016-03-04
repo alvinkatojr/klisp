@@ -59,6 +59,17 @@ int main(int argc, char** argv){
     /* Read a line of user input of maximum size 2048 */
     add_history(input);
 
+    mpc_result_t r;
+    if (mpc_parse("<stdin>", input, lispy, &r)) {
+      /* On success print and delete the AST */
+      mpc_ast_print(r.output);
+      mpc_ast_delete(r.output);
+    } else {
+      /* Otherwise print and delete the Error */
+      mpc_err_print(r.error);
+      mpc_err_delete(r.error);
+    }
+
     /* Free retrieved input */
     free(input);
   }
