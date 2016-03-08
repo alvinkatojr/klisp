@@ -26,6 +26,14 @@ void add_history(char* unused) (){}
 #include <editline/readline.h>
 #endif
 
+/* Create a new Lisp Value Struct */
+
+typedef struct {
+  int type;
+  long num;
+  int err;
+} lval;
+
 /* Use the operator string to see which operation to perform */
 
 long eval_op(long x, char* op, long y){
