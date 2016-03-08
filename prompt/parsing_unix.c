@@ -29,7 +29,8 @@ void add_history(char* unused) (){}
 /* Creates enumeration of possible error types */
 enum { LERR_DIV_ZERO, LERR_BAD_OP, LERR_BAD_NUM };
 
-
+/* Creates enumeration of possible lval types */
+enum { LVAL_NUM, LVAL_ERR }
 
 /* Create a new Lisp Value Struct */
 
