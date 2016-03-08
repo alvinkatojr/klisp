@@ -26,6 +26,11 @@ void add_history(char* unused) (){}
 #include <editline/readline.h>
 #endif
 
+/* Creates enumeration of possible error types */
+enum { LERR_DIV_ZERO, LERR_BAD_OP, LERR_BAD_NUM };
+
+
+
 /* Create a new Lisp Value Struct */
 
 typedef struct {
