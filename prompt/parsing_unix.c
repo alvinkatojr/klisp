@@ -79,6 +79,13 @@ void lval_print(lval v){
   }
 }
 
+// Print an "lval" followed by a newline
+
+void lval_println(lval v) {
+  lval_print(v);
+  putchar('\n');
+}
+
 /* Use the operator string to see which operation to perform */
 
 long eval_op(long x, char* op, long y){
