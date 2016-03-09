@@ -40,12 +40,21 @@ typedef struct {
   int err;
 } lval;
 
-// Create a new number type of lval
+// Creates a new number type of lval
 
 lval lval_num(long x) {
   lval v;
   v.type = LVAL_NUM;
   v.num = x;
+  return v;
+}
+
+// Creates a new error type lval
+
+lval lval_err(int x){
+  lval v;
+  v.type = LVAL_ERR;
+  v.err = x;
   return v;
 }
 
