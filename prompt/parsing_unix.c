@@ -40,6 +40,15 @@ typedef struct {
   int err;
 } lval;
 
+// Create a new number type of lval
+
+lval lval_num(long x) {
+  lval v;
+  v.type = LVAL_NUM;
+  v.num = x;
+  return v;
+}
+
 /* Use the operator string to see which operation to perform */
 
 long eval_op(long x, char* op, long y){
