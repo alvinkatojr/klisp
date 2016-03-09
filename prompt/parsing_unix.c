@@ -64,6 +64,18 @@ void lval_print(lval v){
   switch (v.type) {
     case LVAL_NUM: printf("%li", v.num);
     break;
+
+    case LVAL_ERR;
+      if (v.err == LERR_DIV_ZERO){
+        printf("ErrorL Division By Zero!");
+      }
+      if (v.err == LERR_BAD_OP) {
+        printf("Error: Invalid Operator!");
+      }
+      if (v.err == LERR_BAD_NUM){
+        printf("Error: Invalid Number!");
+      }
+    break;
   }
 }
 
