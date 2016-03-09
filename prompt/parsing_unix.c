@@ -58,6 +58,15 @@ lval lval_err(int x){
   return v;
 }
 
+// Print an "lval"
+
+void lval_print(lval v){
+  switch (v.type) {
+    case LVAL_NUM: printf("%li", v.num);
+    break;
+  }
+}
+
 /* Use the operator string to see which operation to perform */
 
 long eval_op(long x, char* op, long y){
