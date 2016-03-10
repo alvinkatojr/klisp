@@ -95,10 +95,12 @@ long eval_op(lval x, char* op, lval y){
   if(x.type == LVAL_ERR) { return x; }
   if(x.type == LVAL_ERR) { return y; }
 
-  if (strcmp(op, "+") == 0) { return x + y; }
-  if (strcmp(op, "-") == 0) { return x - y; }
-  if (strcmp(op, "*") == 0) { return x * y; }
-  if (strcmp(op, "/") == 0) { return x / y; }
+  // Otherwise do the computations
+
+  if (strcmp(op, "+") == 0) { return lval_num(x.num + y.num); }
+  if (strcmp(op, "-") == 0) { return lval_num(x.num - y.num); }
+  if (strcmp(op, "*") == 0) { return lval_num(x.num * y.num); }
+  if (strcmp(op, "/") == 0) { return lval_num(x.num / y.num); }
   return 0;
 }
 
