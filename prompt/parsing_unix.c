@@ -100,7 +100,10 @@ long eval_op(lval x, char* op, lval y){
   if (strcmp(op, "+") == 0) { return lval_num(x.num + y.num); }
   if (strcmp(op, "-") == 0) { return lval_num(x.num - y.num); }
   if (strcmp(op, "*") == 0) { return lval_num(x.num * y.num); }
-  if (strcmp(op, "/") == 0) { return lval_num(x.num / y.num); }
+  if (strcmp(op, "/") == 0) {
+    // If second operand is zero return an error
+    return y.num == 0 ? lval_err(LERR_DIV_ZERO) : lval_num(x.num / y.num);
+  }
   return 0;
 }
 
