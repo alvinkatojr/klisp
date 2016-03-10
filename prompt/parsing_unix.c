@@ -88,12 +88,18 @@ void lval_println(lval v) {
 
 /* Use the operator string to see which operation to perform */
 
-long eval_op(long x, char* op, long y){
-    if (strcmp(op, "+") == 0) { return x + y; }
-    if (strcmp(op, "-") == 0) { return x - y; }
-    if (strcmp(op, "*") == 0) { return x * y; }
-    if (strcmp(op, "/") == 0) { return x / y; }
-    return 0;
+long eval_op(lval x, char* op, lval y){
+
+  // If either value is an error return it
+
+  if(x.type == LVAL_ERR) { return x; }
+  if(x.type == LVAL_ERR) { return y; }
+
+  if (strcmp(op, "+") == 0) { return x + y; }
+  if (strcmp(op, "-") == 0) { return x - y; }
+  if (strcmp(op, "*") == 0) { return x * y; }
+  if (strcmp(op, "/") == 0) { return x / y; }
+  return 0;
 }
 
 long eval(mpc_ast_t* t) {
