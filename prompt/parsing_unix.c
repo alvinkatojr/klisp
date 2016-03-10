@@ -104,7 +104,8 @@ long eval_op(lval x, char* op, lval y){
     // If second operand is zero return an error
     return y.num == 0 ? lval_err(LERR_DIV_ZERO) : lval_num(x.num / y.num);
   }
-  return 0;
+
+  return lval_err(LERR_BAD_OP);
 }
 
 long eval(mpc_ast_t* t) {
