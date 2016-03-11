@@ -112,7 +112,10 @@ long eval(mpc_ast_t* t) {
 
   /* If tagged as number return it directly */
   if (strstr(t->tag, "number")){
-    return atoi(t->contents);
+    // Check if there is some error in conversion
+    errno = 0;
+    long x = strtol(t->contents, NULL, 10);
+    return errno != ERANGE ? lval_num(x) : lval_err(LERR_BAD_NUM);
   }
 
   /* The operator is always a second child */
