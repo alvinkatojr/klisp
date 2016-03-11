@@ -122,7 +122,7 @@ long eval(mpc_ast_t* t) {
   char* op = t->children[1]->contents;
 
   /* We store the third child in `x` */
-  long x = eval(t->children[2]);
+  lval x = eval(t->children[2]);
 
   /* Iterate the remaining children and combining */
   int i=3;
