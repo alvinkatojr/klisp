@@ -9,17 +9,17 @@
 static char buffer[2048];
 
 /* Fake readline function */
-char* readline(char* prompt){
+char *readline(char *prompt){
   fputs(prompt, stdout);
   fgets(buffer, 2048, stdin);
-  char* cpy = malloc(strlen(buffer)+1);
+  char *cpy = malloc(strlen(buffer)+1);
   strcpy(cpy, buffer);
   cpy[strlen(cpy)-1] = '\0';
   return cpy;
 }
 
 /* Fake add_history function */
-void add_history(char* unused) (){}
+void add_history(char *unused) (){}
 
 /* Otherwise include the editline headers */
 #else
@@ -88,7 +88,7 @@ void lval_println(lval v) {
 
 /* Use the operator string to see which operation to perform */
 
-long eval_op(lval x, char* op, lval y){
+long eval_op(lval x, char *op, lval y){
 
   // If either value is an error return it
 
@@ -108,7 +108,7 @@ long eval_op(lval x, char* op, lval y){
   return lval_err(LERR_BAD_OP);
 }
 
-long eval(mpc_ast_t* t) {
+long eval(mpc_ast_t *t) {
 
   /* If tagged as number return it directly */
   if (strstr(t->tag, "number")){
@@ -119,7 +119,7 @@ long eval(mpc_ast_t* t) {
   }
 
   /* The operator is always a second child */
-  char* op = t->children[1]->contents;
+  char *op = t->children[1]->contents;
 
   /* We store the third child in `x` */
   lval x = eval(t->children[2]);
@@ -134,14 +134,14 @@ long eval(mpc_ast_t* t) {
   return x;
 }
 
-int main(int argc, char** argv){
+int main(int argc, char* *argv){
 
   /* New Parsers */
-  mpc_parser_t* Number = mpc_new("number");
-  mpc_parser_t* Symbol = mpc_new("symbol");
-  mpc_parser_t* Sexpr  = mpc_new("sexpr");
-  mpc_parser_t* Expr = mpc_new("expr");
-  mpc_parser_t* Lispy = mpc_new("lispy");
+  mpc_parser_t *Number = mpc_new("number");
+  mpc_parser_t *Symbol = mpc_new("symbol");
+  mpc_parser_t *Sexpr  = mpc_new("sexpr");
+  mpc_parser_t *Expr = mpc_new("expr");
+  mpc_parser_t *Lispy = mpc_new("lispy");
 
   /* Define the rules for polish notation */
 
@@ -162,7 +162,7 @@ int main(int argc, char** argv){
   while (1){
 
     /* Output our prompt and get input */
-    char* input = readline("klispy> ");
+    char *input = readline("klispy> ");
 
     /* Read a line of user input of maximum size 2048 */
     add_history(input);
