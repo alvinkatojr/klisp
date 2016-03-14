@@ -134,7 +134,7 @@ long eval(mpc_ast_t *t) {
   return x;
 }
 
-int main(int argc, char* *argv){
+int main(int argc, char **argv){
 
   /* New Parsers */
   mpc_parser_t *Number = mpc_new("number");
