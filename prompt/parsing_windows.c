@@ -3,7 +3,7 @@
 /* Declare a buffer for user input of size 2048 */
 static char input[2048];
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
 
   /* Print Version and Exit Information */
   puts("Lispy Version 0.0.0.0.1");
