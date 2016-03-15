@@ -184,7 +184,7 @@ int main(int argc, char **argv){
   }
 
   /* Undefine and delete our parsers */
-  mpc_cleanup(4, Number, Operator, Expr, Lispy);
+  mpc_cleanup(4, Number, Symbol, Sexpr, Expr, Lispy);
 
   return 0;
 }
