@@ -37,6 +37,9 @@ enum { LVAL_NUM, LVAL_ERR, LVAL_SYM, LVAL_SEXPR }
 typedef struct {
   int type;
   long num;
+  /* Error and Symbol types have some string data */
+  char* err;
+  char* sym
   int err;
 } lval;
 
