@@ -38,8 +38,8 @@ typedef struct {
   int type;
   long num;
   /* Error and Symbol types have some string data */
-  char* err;
-  char* sym
+  char *err;
+  char *sym
   int err;
 } lval;
 
