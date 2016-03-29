@@ -34,13 +34,15 @@ enum { LVAL_NUM, LVAL_ERR, LVAL_SYM, LVAL_SEXPR }
 
 /* Create a new Lisp Value Struct */
 
-typedef struct {
+typedef struct lval {
   int type;
   long num;
   /* Error and Symbol types have some string data */
   char *err;
   char *sym
-  int err;
+  // Count and Pointer to a list of "lval"
+  int count;
+  struct lval **cell;
 } lval;
 
 // Creates a new number type of lval
