@@ -45,6 +45,14 @@ typedef struct lval {
   struct lval **cell;
 } lval;
 
+// Construct a pointer to a new Number lval
+lval *lval_num(long x) {
+  lval *v = malloc(sizeof(lval));
+  v->type = LVAL_NUM;
+  v->num = x;
+  return v;
+}
+
 // Creates a new number type of lval
 
 lval lval_num(long x) {
