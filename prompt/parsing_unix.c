@@ -62,6 +62,16 @@ lval lval_num(long x) {
   return v;
 }
 
+// Construct a pointer to a new Error lval
+
+lval *lval_err(char *m){
+  lval *v = malloc(sizeof(lval));
+  v->type = LVAL_ERR;
+  v->err = malloc(strlen(m) + 1);
+  strcpy(v->err, m);
+  return v;
+}
+
 // Creates a new error type lval
 
 lval lval_err(int x){
