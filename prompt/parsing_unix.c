@@ -171,7 +171,8 @@ int main(int argc, char **argv){
   mpca_lang(MPCA_LANG_DEFAULT,
     "                                                 \
       number : /-?[0-9]+/;                            \
-      symbol : '+' | '-' | '*' | '/';               \
+      symbol : '+' | '-' | '*' | '/';                 \
+      sexpr  : '(' <expr>* ')';                       \
       expr : <number> | '(' <operator> <expr>+ ')';   \
       lispy: /^/ <operator> <expr>+ /$/;              \
     ",
