@@ -169,12 +169,12 @@ int main(int argc, char **argv){
   /* Define the rules for polish notation */
 
   mpca_lang(MPCA_LANG_DEFAULT,
-    "                                                 \
-      number : /-?[0-9]+/;                            \
-      symbol : '+' | '-' | '*' | '/';                 \
-      sexpr  : '(' <expr>* ')';                       \
-      expr : <number> | '(' <operator> <expr>+ ')';   \
-      lispy: /^/ <operator> <expr>+ /$/;              \
+    "                                                    \
+      number : /-?[0-9]+/ ;                              \
+      symbol : '+' | '-' | '*' | '/' ;                   \
+      sexpr  : '(' <expr>* ')' ;                         \
+      expr   : <number> | '(' <operator> <expr>+ ')' ;   \
+      lispy  : /^/ <operator> <expr>+ /$/ ;              \
     ",
   Number, Symbol, Sexpr, Expr, Lispy);
 
