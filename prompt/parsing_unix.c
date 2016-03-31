@@ -176,7 +176,7 @@ int main(int argc, char **argv){
       expr : <number> | '(' <operator> <expr>+ ')';   \
       lispy: /^/ <operator> <expr>+ /$/;              \
     ",
-  Number, Operator, Expr, Lispy);
+  Number, Symbol, Expr, Lispy);
 
   /* Print Version and Exit Information */
   puts("Klisp Version 0.0.0.0.1");
