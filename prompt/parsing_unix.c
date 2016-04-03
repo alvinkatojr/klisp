@@ -154,6 +154,12 @@ void lval_println(lval v) {
   putchar('\n');
 }
 
+lval *lval_read_num(mpc_ast_t *t) {
+  errno = 0;
+  long x = strtol(t->contents, NULL, 10);
+  return errno != ERANGE ? lval_num(x) : lval_err("inavlid number");
+}
+
 /* Use the operator string to see which operation to perform */
 
 long eval_op(lval x, char *op, lval y){
