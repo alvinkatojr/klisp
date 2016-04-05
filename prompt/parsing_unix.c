@@ -183,6 +183,13 @@ lval *lval_read(mpc_ast_t *t) {
   return x;
 }
 
+lval *lval_add(lval *v, lval *x) {
+  v->count++
+  v->cell = realloc(v->cell, sizeof(lval*) * v->count);
+  v->cell[v->count-1] = x;
+  return v;
+}
+
 /* Use the operator string to see which operation to perform */
 
 long eval_op(lval x, char *op, lval y){
