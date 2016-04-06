@@ -120,7 +120,7 @@ void lval_print(lval *v){
 
 // Print an "lval" followed by a newline
 
-void lval_println(lval v) {
+void lval_println(lval *v) {
   lval_print(v);
   putchar('\n');
 }
