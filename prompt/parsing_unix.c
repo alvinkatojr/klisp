@@ -53,15 +53,6 @@ lval *lval_num(long x) {
   return v;
 }
 
-// Creates a new number type of lval
-
-lval lval_num(long x) {
-  lval v;
-  v.type = LVAL_NUM;
-  v.num = x;
-  return v;
-}
-
 // Construct a pointer to a new Error lval
 
 lval *lval_err(char *m){
