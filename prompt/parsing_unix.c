@@ -63,16 +63,6 @@ lval *lval_err(char *m){
   return v;
 }
 
-// Creates a new error type lval
-
-lval lval_err(int x){
-  lval v;
-  v.type = LVAL_ERR;
-  v.err = x;
-  return v;
-}
-
-
 // Constructs a pointer to a new Symbol lval
 
 lval *lval_sym(char *s){
