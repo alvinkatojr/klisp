@@ -176,6 +176,44 @@ lval *lval_add(lval *v, lval *x) {
   return v;
 }
 
+lval *lval_eval_sexpr(lval *v) {
+
+  // Evaluate children
+  for (int i = 0; i < v->count; i++){
+    v->cell[i] = lval_eval(v->cell[i]);
+  }
+
+  // Error checking
+  for (int i = 0; i < v->count; i++) {
+    if (v->cell[i]->type == LVAL_ERR) {
+      return lval_take(v, i);
+    }
+  }
+
+  // Empty expression
+  if (v->count == 0) {
+    return v;
+  }
+
+  // Single expression
+  if (v->count == 1) {
+    return lval_take(v, 0);
+  }
+
+  // Ensure first element is Symbol
+  lval *f = lval_pop(v, 0);
+  if (f->type != LVAL_SYM) {
+    lval_del(f);
+    lval_del(v);
+    return lval_err("S-expression does not start with symbol!");
+  }
+
+  // Call builtin with operator
+  lval *result = builtin_op(v, f->sym);
+  lval_del(f);
+  return result;
+}
+
 /* Use the operator string to see which operation to perform */
 
 long eval_op(lval x, char *op, lval y){
