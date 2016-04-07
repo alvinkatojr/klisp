@@ -176,6 +176,21 @@ lval *lval_add(lval *v, lval *x) {
   return v;
 }
 
+lval *lval_pop(lval *v, int i) {
+  // Find the item at "i"
+  lval *x = v->cell[i];
+
+  // Shift memory after the item at "i" over the top
+  memmove(&v->cell[i], &v->cell[i+1], sizeof(lval*) *(v->count-i-1));
+
+  // Decrease the count of items in the list
+  v->count--;
+
+  // Reallocate the memory used
+  v->cell = realloc(v->cell, sizeof(lval *) * v->count);
+  return x;
+}
+
 lval *lval_eval_sexpr(lval *v) {
 
   // Evaluate children
