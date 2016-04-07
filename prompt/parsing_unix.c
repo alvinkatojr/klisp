@@ -214,6 +214,15 @@ lval *lval_eval_sexpr(lval *v) {
   return result;
 }
 
+lval *lval_eval(lval *v) {
+  // Evaluate Sexpressions
+  if (v->type == LVAL_SEXPR) {
+    return lval_eval_sexpr(v);
+  }
+  // All other lval types remain the same
+  return v;
+}
+
 /* Use the operator string to see which operation to perform */
 
 long eval_op(lval x, char *op, lval y){
