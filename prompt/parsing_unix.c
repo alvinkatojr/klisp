@@ -245,7 +245,14 @@ lval *lval_eval(lval *v) {
 }
 
 lval *builtin_op(lval *a, char *op){
-  
+
+  // Ensure all arguments are numbers
+  for (int i = 0; i < a->count; i++){
+    if (a->cell[i]->type != LVAL_NUM) {
+      lval_del(a);
+      return lval_err("Cannot operate on non-number!")
+    }
+  }
 }
 
 /* Use the operator string to see which operation to perform */
