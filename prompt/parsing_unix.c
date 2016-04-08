@@ -244,6 +244,10 @@ lval *lval_eval(lval *v) {
   return v;
 }
 
+lval *builtin_op(lval *a, char *op){
+  
+}
+
 /* Use the operator string to see which operation to perform */
 
 long eval_op(lval x, char *op, lval y){
