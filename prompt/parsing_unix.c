@@ -255,28 +255,6 @@ lval *builtin_op(lval *a, char *op){
   }
 }
 
-/* Use the operator string to see which operation to perform */
-
-long eval_op(lval x, char *op, lval y){
-
-  // If either value is an error return it
-
-  if(x.type == LVAL_ERR) { return x; }
-  if(x.type == LVAL_ERR) { return y; }
-
-  // Otherwise do the computations
-
-  if (strcmp(op, "+") == 0) { return lval_num(x.num + y.num); }
-  if (strcmp(op, "-") == 0) { return lval_num(x.num - y.num); }
-  if (strcmp(op, "*") == 0) { return lval_num(x.num * y.num); }
-  if (strcmp(op, "/") == 0) {
-    // If second operand is zero return an error
-    return y.num == 0 ? lval_err(LERR_DIV_ZERO) : lval_num(x.num / y.num);
-  }
-
-  return lval_err(LERR_BAD_OP);
-}
-
 long eval(mpc_ast_t *t) {
 
   /* If tagged as number return it directly */
