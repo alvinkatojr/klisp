@@ -321,8 +321,9 @@ int main(int argc, char **argv){
     mpc_result_t r;
     if (mpc_parse("<stdin>", input, Lispy, &r)) {
       /* Prints the result of our evaluation */
-      lval result = eval(r.output);
-      lval_println(result);
+      lval *x = lval_eval(lval_read(r.output));
+      lval_println(x);
+      lval_del(x);
       mpc_ast_delete(r.output);
     } else {
       /* Otherwise print and delete the Error */
