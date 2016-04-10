@@ -257,10 +257,31 @@ lval *builtin_op(lval *a, char *op){
   // Pop the first element
   lval *x = lval_pop(a, 0);
 
-  // If no arguments and sub then perfom unary negation
+  // If no arguments and subtraction sign then perfom unary negation
   if ((strcmp(op, "-") == 0) && a->count == 0){
     x->num = -x->num;
   }
+
+  // While there are still arguments remaining
+  while (a->count > 0) {
+
+    // Pop the next element
+    lval *y = lval_pop(a, 0);
+
+    if (strcmp(op, "+") == 0) { x->num += y->num; }
+    if (strcmp(op, "-") == 0) { x->num -= y->num; }
+    if (strcmp(op, "*") == 0) { x->num *= y->num; }
+    if (strcmp(op, "/") == 0) {
+      if (y->num == 0){
+        lval_del(x); lval_del(y);
+        x = lval_err("Division By Zero!"); break;
+      }
+      x->num /= y->num;
+    }
+    lval_del(y);
+  }
+
+  lval_del(a); return x;
 }
 
 int main(int argc, char **argv){
