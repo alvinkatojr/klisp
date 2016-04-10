@@ -253,6 +253,14 @@ lval *builtin_op(lval *a, char *op){
       return lval_err("Cannot operate on non-number!")
     }
   }
+
+  // Pop the first element
+  lval *x = lval_pop(a, 0);
+
+  // If no arguments and sub then perfom unary negation
+  if ((strcmp(op, "-") == 0) && a->count == 0){
+    x->num = -x->num;
+  }
 }
 
 int main(int argc, char **argv){
