@@ -160,13 +160,15 @@ lval *lval_read_num(mpc_ast_t *t) {
 
 lval *lval_read(mpc_ast_t *t) {
   //  If Symbol or Number return conversion to that type
-  if (strstr(t->tag, "number")) { return lval_read_num(t); }
+
+  if (strstr(t->tag, "number")) { return lval_num(t); }
   if (strstr(t->tag, "symbol")) { return lval_sym(t->contents); }
-  if (strstr(t->tag, "qexpr")) { x = lval_qexpr(); }
+
   // If root (>) or sexpr then create an empty list
   lval *x = NULL;
   if (strcmp(t->tag, ">") == 0) { x = lval_sexpr(); }
   if (strstr(t->tag, "sexpr"))  { x = lval_sexpr(); }
+  if (strstr(t->tag, "qexpr")) { x = lval_qexpr(); }
 
   // Fill this list with any valid expression contained within
   for (int i = 0; i < t->children_num; i++) {
