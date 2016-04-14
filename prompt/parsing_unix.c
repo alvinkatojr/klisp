@@ -30,7 +30,7 @@ void add_history(char *unused) (){}
 enum { LERR_DIV_ZERO, LERR_BAD_OP, LERR_BAD_NUM };
 
 /* Creates enumeration of possible lval types */
-enum { LVAL_NUM, LVAL_ERR, LVAL_SYM, LVAL_SEXPR }
+enum { LVAL_NUM, LVAL_ERR, LVAL_SYM, LVAL_SEXPR, LVAL_QEXPR }
 
 /* Create a new Lisp Value Struct */
 
@@ -83,6 +83,16 @@ lval *lval_sexpr(void) {
   return v;
 }
 
+// Creates a pointer to a new Qexr lval
+
+lval *lval_qexpr(void) {
+  lval *v = malloc(sizeof(lval));
+  v-type = LVAL_QEXPR;
+  v->count = 0;
+  v->cell = NULL;
+  return v;
+}
+
 void lval_del(lval *v) {
 
   switch(v->type) {
@@ -94,6 +104,7 @@ void lval_del(lval *v) {
     case LVAL_SYM: free(v->sym); break;
 
     // if Sexpr then delete all elements inside
+    case LVAL_QEXPR:
     case LVAL_SEXPR:
       for (int i = 0; i < v->count; i++) {
         lval_del(v->cell[i]);
@@ -115,6 +126,7 @@ void lval_print(lval *v){
     case LVAL_ERR:  printf("Error: %s", v->err); break;
     case LVAL_SYM:   printf("%s", v->sym); break;
     case LVAL_SEXPR: lval_expr_print(v, '(', ')'); break;
+    case LVAL_QEXPR: lval_expr_print(v, '{', '}'); break;
   }
 }
 
@@ -149,12 +161,13 @@ lval *lval_read_num(mpc_ast_t *t) {
 lval *lval_read(mpc_ast_t *t) {
   //  If Symbol or Number return conversion to that type
   if (strstr(t->tag, "number")) { return lval_read_num(t); }
-  if (strstr(t->tag, "symbol")) { return lval_sexpr(); }
+  if (strstr(t->tag, "symbol")) { return lval_sym(t->contents); }
 
   // If root (>) or sexpr then create an empty list
   lval *x = NULL;
   if (strcmp(t->tag, ">") == 0) { x = lval_sexpr(); }
   if (strstr(t->tag, "sexpr"))  { x = lval_sexpr(); }
+  if (strstr(t->tag, "qexpr")) { x = lval_qexpr(); }
 
   // Fill this list with any valid expression contained within
   for (int i = 0; i < t->children_num; i++) {
@@ -290,6 +303,7 @@ int main(int argc, char **argv){
   mpc_parser_t *Number = mpc_new("number");
   mpc_parser_t *Symbol = mpc_new("symbol");
   mpc_parser_t *Sexpr  = mpc_new("sexpr");
+  mpc_parser_t *Qexpr  = mpc_new("qexpr");
   mpc_parser_t *Expr   = mpc_new("expr");
   mpc_parser_t *Lispy  = mpc_new("lispy");
 
@@ -303,7 +317,7 @@ int main(int argc, char **argv){
       expr   : <number> | '(' <operator> <expr>+ ')' ;   \
       lispy  : /^/ <operator> <expr>+ /$/ ;              \
     ",
-  Number, Symbol, Sexpr, Expr, Lispy);
+  Number, Symbol, Sexpr, Qexpr, Expr, Lispy);
 
   /* Print Version and Exit Information */
   puts("Klisp Version 0.0.0.0.1");
@@ -336,7 +350,7 @@ int main(int argc, char **argv){
   }
 
   /* Undefine and delete our parsers */
-  mpc_cleanup(4, Number, Symbol, Sexpr, Expr, Lispy);
+  mpc_cleanup(4, Number, Symbol, Sexpr, Qexpr, Expr, Lispy);
 
   return 0;
 }
