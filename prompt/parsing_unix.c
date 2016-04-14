@@ -149,7 +149,7 @@ lval *lval_read_num(mpc_ast_t *t) {
 lval *lval_read(mpc_ast_t *t) {
   //  If Symbol or Number return conversion to that type
   if (strstr(t->tag, "number")) { return lval_read_num(t); }
-  if (strstr(t->tag, "symbol")) { return lval_sym(t->contents); }
+  if (strstr(t->tag, "symbol")) { return lval_sexpr(); }
 
   // If root (>) or sexpr then create an empty list
   lval *x = NULL;
