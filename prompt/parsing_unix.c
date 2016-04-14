@@ -104,6 +104,7 @@ void lval_del(lval *v) {
     case LVAL_SYM: free(v->sym); break;
 
     // if Sexpr then delete all elements inside
+    case LVAL_QEXPR:
     case LVAL_SEXPR:
       for (int i = 0; i < v->count; i++) {
         lval_del(v->cell[i]);
