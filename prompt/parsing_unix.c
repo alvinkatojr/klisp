@@ -314,6 +314,7 @@ int main(int argc, char **argv){
       number : /-?[0-9]+/ ;                              \
       symbol : '+' | '-' | '*' | '/' ;                   \
       sexpr  : '(' <expr>* ')' ;                         \
+      qexpr  : '{' <expr>* '}' ;                         \
       expr   : <number> | '(' <operator> <expr>+ ')' ;   \
       lispy  : /^/ <operator> <expr>+ /$/ ;              \
     ",
