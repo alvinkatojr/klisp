@@ -30,7 +30,7 @@ void add_history(char *unused) (){}
 enum { LERR_DIV_ZERO, LERR_BAD_OP, LERR_BAD_NUM };
 
 /* Creates enumeration of possible lval types */
-enum { LVAL_NUM, LVAL_ERR, LVAL_SYM, LVAL_SEXPR, LVAL_QEXPR }; 
+enum { LVAL_NUM, LVAL_ERR, LVAL_SYM, LVAL_SEXPR, LVAL_QEXPR };
 
 /* Create a new Lisp Value Struct */
 
@@ -39,7 +39,7 @@ typedef struct lval {
   long num;
   /* Error and Symbol types have some string data */
   char *err;
-  char *sym
+  char *sym;
   // Count and Pointer to a list of "lval"
   int count;
   struct lval **cell;
