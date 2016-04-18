@@ -263,7 +263,7 @@ lval *builtin_op(lval *a, char *op){
   for (int i = 0; i < a->count; i++){
     if (a->cell[i]->type != LVAL_NUM) {
       lval_del(a);
-      return lval_err("Cannot operate on non-number!")
+      return lval_err("Cannot operate on non-number!");
     }
   }
 
