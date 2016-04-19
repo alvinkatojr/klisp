@@ -121,7 +121,7 @@ void lval_del(lval *v) {
 // Print an "lval"
 
 void lval_print(lval *v){
-  switch (v.type) {
+  switch (v->type) {
     case LVAL_NUM:  printf("%li", v->num); break;
     case LVAL_ERR:  printf("Error: %s", v->err); break;
     case LVAL_SYM:   printf("%s", v->sym); break;
