@@ -130,13 +130,6 @@ void lval_print(lval *v){
   }
 }
 
-// Print an "lval" followed by a newline
-
-void lval_println(lval *v) {
-  lval_print(v);
-  putchar('\n');
-}
-
 void lval_expr_print(lval *v, char open, char close) {
   putchar(open);
   for (int i = 0; i < v->count; i++){
@@ -152,34 +145,11 @@ void lval_expr_print(lval *v, char open, char close) {
   putchar(close);
 }
 
-lval *lval_read_num(mpc_ast_t *t) {
-  errno = 0;
-  long x = strtol(t->contents, NULL, 10);
-  return errno != ERANGE ? lval_num(x) : lval_err("inavlid number");
-}
+// Print an "lval" followed by a newline
 
-lval *lval_read(mpc_ast_t *t) {
-  //  If Symbol or Number return conversion to that type
-  if (strstr(t->tag, "number")) { return lval_read_num(t); }
-  if (strstr(t->tag, "symbol")) { return lval_sym(t->contents); }
-
-  // If root (>) or sexpr then create an empty list
-  lval *x = NULL;
-  if (strcmp(t->tag, ">") == 0) { x = lval_sexpr(); }
-  if (strstr(t->tag, "sexpr"))  { x = lval_sexpr(); }
-  if (strstr(t->tag, "qexpr")) { x = lval_qexpr(); }
-
-  // Fill this list with any valid expression contained within
-  for (int i = 0; i < t->children_num; i++) {
-    if (strcmp(t->children[i]->contents, "(") == 0) { continue; }
-    if (strcmp(t->children[i]->contents, ")") == 0) { continue; }
-    if (strcmp(t->children[i]->contents, "{") == 0) { continue; }
-    if (strcmp(t->children[i]->contents, "}") == 0) { continue; }
-    if (strcmp(t->children[i]->tag,  "regex") == 0) { continue; }
-    x = lval_add(x, lval_read(t->children[i]));
-  }
-
-  return x;
+void lval_println(lval *v) {
+  lval_print(v);
+  putchar('\n');
 }
 
 lval *lval_add(lval *v, lval *x) {
@@ -208,6 +178,46 @@ lval *lval_take(lval *v, int i) {
   lval *x = lval_pop(v, i);
   lval_del(v);
   return x;
+}
+
+lval *builtin_op(lval *a, char *op){
+
+  // Ensure all arguments are numbers
+  for (int i = 0; i < a->count; i++){
+    if (a->cell[i]->type != LVAL_NUM) {
+      lval_del(a);
+      return lval_err("Cannot operate on non-number!");
+    }
+  }
+
+  // Pop the first element
+  lval *x = lval_pop(a, 0);
+
+  // If no arguments and subtraction sign then perfom unary negation
+  if ((strcmp(op, "-") == 0) && a->count == 0){
+    x->num = -x->num;
+  }
+
+  // While there are still arguments remaining
+  while (a->count > 0) {
+
+    // Pop the next element
+    lval *y = lval_pop(a, 0);
+
+    if (strcmp(op, "+") == 0) { x->num += y->num; }
+    if (strcmp(op, "-") == 0) { x->num -= y->num; }
+    if (strcmp(op, "*") == 0) { x->num *= y->num; }
+    if (strcmp(op, "/") == 0) {
+      if (y->num == 0){
+        lval_del(x); lval_del(y);
+        x = lval_err("Division By Zero!"); break;
+      }
+      x->num /= y->num;
+    }
+    lval_del(y);
+  }
+
+  lval_del(a); return x;
 }
 
 lval *lval_eval_sexpr(lval *v) {
@@ -257,44 +267,34 @@ lval *lval_eval(lval *v) {
   return v;
 }
 
-lval *builtin_op(lval *a, char *op){
+lval *lval_read_num(mpc_ast_t *t) {
+  errno = 0;
+  long x = strtol(t->contents, NULL, 10);
+  return errno != ERANGE ? lval_num(x) : lval_err("inavlid number");
+}
 
-  // Ensure all arguments are numbers
-  for (int i = 0; i < a->count; i++){
-    if (a->cell[i]->type != LVAL_NUM) {
-      lval_del(a);
-      return lval_err("Cannot operate on non-number!");
-    }
+lval *lval_read(mpc_ast_t *t) {
+  //  If Symbol or Number return conversion to that type
+  if (strstr(t->tag, "number")) { return lval_read_num(t); }
+  if (strstr(t->tag, "symbol")) { return lval_sym(t->contents); }
+
+  // If root (>) or sexpr then create an empty list
+  lval *x = NULL;
+  if (strcmp(t->tag, ">") == 0) { x = lval_sexpr(); }
+  if (strstr(t->tag, "sexpr"))  { x = lval_sexpr(); }
+  if (strstr(t->tag, "qexpr")) { x = lval_qexpr(); }
+
+  // Fill this list with any valid expression contained within
+  for (int i = 0; i < t->children_num; i++) {
+    if (strcmp(t->children[i]->contents, "(") == 0) { continue; }
+    if (strcmp(t->children[i]->contents, ")") == 0) { continue; }
+    if (strcmp(t->children[i]->contents, "{") == 0) { continue; }
+    if (strcmp(t->children[i]->contents, "}") == 0) { continue; }
+    if (strcmp(t->children[i]->tag,  "regex") == 0) { continue; }
+    x = lval_add(x, lval_read(t->children[i]));
   }
 
-  // Pop the first element
-  lval *x = lval_pop(a, 0);
-
-  // If no arguments and subtraction sign then perfom unary negation
-  if ((strcmp(op, "-") == 0) && a->count == 0){
-    x->num = -x->num;
-  }
-
-  // While there are still arguments remaining
-  while (a->count > 0) {
-
-    // Pop the next element
-    lval *y = lval_pop(a, 0);
-
-    if (strcmp(op, "+") == 0) { x->num += y->num; }
-    if (strcmp(op, "-") == 0) { x->num -= y->num; }
-    if (strcmp(op, "*") == 0) { x->num *= y->num; }
-    if (strcmp(op, "/") == 0) {
-      if (y->num == 0){
-        lval_del(x); lval_del(y);
-        x = lval_err("Division By Zero!"); break;
-      }
-      x->num /= y->num;
-    }
-    lval_del(y);
-  }
-
-  lval_del(a); return x;
+  return x;
 }
 
 int main(int argc, char **argv){
