@@ -87,7 +87,7 @@ lval *lval_sexpr(void) {
 
 lval *lval_qexpr(void) {
   lval *v = malloc(sizeof(lval));
-  v-type = LVAL_QEXPR;
+  v->type = LVAL_QEXPR;
   v->count = 0;
   v->cell = NULL;
   return v;
