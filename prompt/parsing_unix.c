@@ -118,13 +118,6 @@ void lval_del(lval *v) {
   free(v);
 }
 
-// Print an "lval" followed by a newline
-
-void lval_println(lval *v) {
-  lval_print(v);
-  putchar('\n');
-}
-
 void lval_expr_print(lval *v, char open, char close) {
   putchar(open);
   for (int i = 0; i < v->count; i++){
@@ -150,6 +143,13 @@ void lval_print(lval *v){
     case LVAL_SEXPR: lval_expr_print(v, '(', ')'); break;
     case LVAL_QEXPR: lval_expr_print(v, '{', '}'); break;
   }
+}
+
+// Print an "lval" followed by a newline
+
+void lval_println(lval *v) {
+  lval_print(v);
+  putchar('\n');
 }
 
 
