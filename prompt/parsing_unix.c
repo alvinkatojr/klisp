@@ -118,21 +118,6 @@ void lval_del(lval *v) {
   free(v);
 }
 
-void lval_expr_print(lval *v, char open, char close) {
-  putchar(open);
-  for (int i = 0; i < v->count; i++){
-
-    // Print Value contained within
-    lval_print(v->cell[i]);
-
-    // Don't print trailing space if last element
-    if (1 != (v->count-1)){
-      putchar(' ');
-    }
-  }
-  putchar(close);
-}
-
 // Print an "lval"
 
 void lval_print(lval *v){
@@ -152,6 +137,20 @@ void lval_println(lval *v) {
   putchar('\n');
 }
 
+void lval_expr_print(lval *v, char open, char close) {
+  putchar(open);
+  for (int i = 0; i < v->count; i++){
+
+    // Print Value contained within
+    lval_print(v->cell[i]);
+
+    // Don't print trailing space if last element
+    if (1 != (v->count-1)){
+      putchar(' ');
+    }
+  }
+  putchar(close);
+}
 
 lval *lval_read_num(mpc_ast_t *t) {
   errno = 0;
