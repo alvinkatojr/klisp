@@ -118,18 +118,6 @@ void lval_del(lval *v) {
   free(v);
 }
 
-// Print an "lval"
-
-void lval_print(lval *v){
-  switch (v->type) {
-    case LVAL_NUM:  printf("%li", v->num); break;
-    case LVAL_ERR:  printf("Error: %s", v->err); break;
-    case LVAL_SYM:   printf("%s", v->sym); break;
-    case LVAL_SEXPR: lval_expr_print(v, '(', ')'); break;
-    case LVAL_QEXPR: lval_expr_print(v, '{', '}'); break;
-  }
-}
-
 // Print an "lval" followed by a newline
 
 void lval_println(lval *v) {
@@ -151,6 +139,19 @@ void lval_expr_print(lval *v, char open, char close) {
   }
   putchar(close);
 }
+
+// Print an "lval"
+
+void lval_print(lval *v){
+  switch (v->type) {
+    case LVAL_NUM:  printf("%li", v->num); break;
+    case LVAL_ERR:  printf("Error: %s", v->err); break;
+    case LVAL_SYM:   printf("%s", v->sym); break;
+    case LVAL_SEXPR: lval_expr_print(v, '(', ')'); break;
+    case LVAL_QEXPR: lval_expr_print(v, '{', '}'); break;
+  }
+}
+
 
 lval *lval_read_num(mpc_ast_t *t) {
   errno = 0;
