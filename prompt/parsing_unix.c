@@ -118,6 +118,34 @@ void lval_del(lval *v) {
   free(v);
 }
 
+lval *lval_add(lval *v, lval *x) {
+  v->count++;
+  v->cell = realloc(v->cell, sizeof(lval*) * v->count);
+  v->cell[v->count-1] = x;
+  return v;
+}
+
+lval *lval_pop(lval *v, int i) {
+  // Find the item at "i"
+  lval *x = v->cell[i];
+
+  // Shift memory after the item at "i" over the top
+  memmove(&v->cell[i], &v->cell[i+1], sizeof(lval*) *(v->count-i-1));
+
+  // Decrease the count of items in the list
+  v->count--;
+
+  // Reallocate the memory used
+  v->cell = realloc(v->cell, sizeof(lval *) * v->count);
+  return x;
+}
+
+lval *lval_take(lval *v, int i) {
+  lval *x = lval_pop(v, i);
+  lval_del(v);
+  return x;
+}
+
 // Print an "lval"
 
 void lval_print(lval *v){
@@ -150,34 +178,6 @@ void lval_expr_print(lval *v, char open, char close) {
 void lval_println(lval *v) {
   lval_print(v);
   putchar('\n');
-}
-
-lval *lval_add(lval *v, lval *x) {
-  v->count++;
-  v->cell = realloc(v->cell, sizeof(lval*) * v->count);
-  v->cell[v->count-1] = x;
-  return v;
-}
-
-lval *lval_pop(lval *v, int i) {
-  // Find the item at "i"
-  lval *x = v->cell[i];
-
-  // Shift memory after the item at "i" over the top
-  memmove(&v->cell[i], &v->cell[i+1], sizeof(lval*) *(v->count-i-1));
-
-  // Decrease the count of items in the list
-  v->count--;
-
-  // Reallocate the memory used
-  v->cell = realloc(v->cell, sizeof(lval *) * v->count);
-  return x;
-}
-
-lval *lval_take(lval *v, int i) {
-  lval *x = lval_pop(v, i);
-  lval_del(v);
-  return x;
 }
 
 lval *builtin_op(lval *a, char *op){
