@@ -222,6 +222,8 @@ lval *builtin_op(lval *a, char *op){
   lval_del(a); return x;
 }
 
+lval *lval_eval(lval *v);
+
 lval *lval_eval_sexpr(lval *v) {
 
   // Evaluate children
